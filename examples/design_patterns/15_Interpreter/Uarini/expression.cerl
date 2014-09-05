@@ -1,7 +1,0 @@
--interface(expression).
--export([interpreter/1]).
-
-class_methods.
-
-interpreter(map<string, expression> Variables).
-

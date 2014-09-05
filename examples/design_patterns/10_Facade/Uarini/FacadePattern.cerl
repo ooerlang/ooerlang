@@ -1,9 +1,0 @@
--class(facadePattern).
--export([main/0]).
-
-class_methods.
-
-main() ->
-	Facade = chamar::constructor(),
-	Facade::chamar().
-

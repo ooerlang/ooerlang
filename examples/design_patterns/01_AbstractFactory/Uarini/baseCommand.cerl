@@ -1,6 +1,0 @@
--interface(baseCommand).
--export([executar/0]).
-
-class_methods.
-
-executar().

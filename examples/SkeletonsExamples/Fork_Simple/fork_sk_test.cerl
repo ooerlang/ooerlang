@@ -1,9 +1,0 @@
--class(fork_sk_test).
--compile(export_all).
-
-class_methods.
-
-main() ->
-	Sk = fork_sk::new(false),
-	timer:sleep(1000), %%sleep otherwise
-	Sk::stop(). %%would stop too soon

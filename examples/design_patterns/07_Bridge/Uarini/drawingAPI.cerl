@@ -1,6 +1,0 @@
--interface(drawingAPI).
--export([drawCircle/3]).
-
-class_methods.
-
-drawCircle(X, Y, Radius).
