@@ -1,7 +1,8 @@
 ooErlang
 ========
-
 https://sites.google.com/site/ooerlang1/
+
+![ci status](https://travis-ci.org/ooerlang/ooerlang.svg?branch=master)
 
 What is this?
 -------------
