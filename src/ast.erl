@@ -8,7 +8,7 @@
 -module(ast).
 -export([get_ooe_tokens/1, get_ooe_forms/1, get_class_info/1,
          get_ooe_forms_tokens/1]).
--include("../include/ooe_define.hrl").
+-include("ooe_define.hrl").
 
 %%-----------------------------------------------------------------------------
 %% Extrai a OOErlang Abstract Syntax Tree de um arquivo .cerl

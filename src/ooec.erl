@@ -8,7 +8,7 @@
 -module(ooec).
 -export([compile/1, get_version/0]).
 
--include("../include/ooe_define.hrl").
+-include("ooe_define.hrl").
 
 %%-----------------------------------------------------------------------------
 %% Interface com o usuario final. Compila 1 arquivo ooerlang, gera o .beam

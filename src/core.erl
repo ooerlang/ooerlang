@@ -7,7 +7,7 @@
 
 -module(core).
 -export([transform_oast_to_east/3]).
--include("../include/ooe_define.hrl").
+-include("ooe_define.hrl").
 
 -import(gen_ast, [match/3, var/2, rcall/4, atom/2, tuple/2]).
 

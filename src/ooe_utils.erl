@@ -8,7 +8,7 @@
 -module(ooe_utils).
 -compile(export_all).
 
--include("../include/ooe_define.hrl").
+-include("ooe_define.hrl").
 
 %%-----------------------------------------------------------------------------
 %% Compila vários códigos em OOE dependentes e gera .beam's correspondentes

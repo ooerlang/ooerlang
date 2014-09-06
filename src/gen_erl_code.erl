@@ -7,7 +7,7 @@
 
 -module(gen_erl_code).
 -export([match_pattern/1, match_expr/1]).
--include("../include/ooe_define.hrl").
+-include("ooe_define.hrl").
 
 -import(gen_ast,
     [

@@ -3,8 +3,8 @@ EBIN_DIR=ebin
 INCLUDE_DIR=include
 TEST_EBIN_DIR=test/ebin
 UARINI_SRC_DIR = src_cerl
-ERLC=erlc -I $(INCLUDE_DIR)
-ERL=erl -noshell -pa $(EBIN_DIR) -pa $(TEST_EBIN_DIR) 
+ERLC=erlc -I $(INCLUDE_DIR) -pa $(EBIN_DIR)
+ERL=erl -noshell -pa $(EBIN_DIR) -I $(INCLUDE_DIR) -pa $(TEST_EBIN_DIR)
 
 .PHONY: clean debug
 
@@ -16,7 +16,7 @@ test:   compile
 	@ rm -rf $(TEST_EBIN_DIR)/
 	@ mkdir -p $(TEST_EBIN_DIR)
 	@ $(ERLC) -o $(TEST_EBIN_DIR) test/*.erl
-	@ $(ERL) -pa $(EBIN_DIR) -pa $(TEST_EBIN_DIR) \
+	@ $(ERL) -pa $(TEST_EBIN_DIR) \
 		-eval 'eunit:test([test, ooe_scan_tests, ooe_parse_tests], [verbose]), halt().'
 	@ mv *.beam $(TEST_EBIN_DIR)/
 	@ mv *.erl $(TEST_EBIN_DIR)/
