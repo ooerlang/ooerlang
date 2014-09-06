@@ -216,10 +216,10 @@ field_type -> atom '::' top_type          : {type, ?line('$1'), field_type,
                                              ['$1', '$3']}.
 
 binary_type -> '<<' '>>'                  : {type, ?line('$1'),binary,
-					     [abstract(0, ?line('$1')),
-					      abstract(0, ?line('$1'))]}.
+                         [abstract(0, ?line('$1')),
+                          abstract(0, ?line('$1'))]}.
 binary_type -> '<<' bin_base_type '>>'    : {type, ?line('$1'),binary,
-					     ['$2', abstract(0, ?line('$1'))]}.
+                         ['$2', abstract(0, ?line('$1'))]}.
 binary_type -> '<<' bin_unit_type '>>'    : {type, ?line('$1'),binary,
                                              [abstract(0, ?line('$1')), '$2']}.
 binary_type -> '<<' bin_base_type ',' bin_unit_type '>>'
@@ -239,7 +239,7 @@ function_clauses -> function_clause : ['$1'].
 function_clauses -> function_clause ';' function_clauses : ['$1'|'$3'].
 
 function_clause -> atom clause_args clause_guard clause_body :
-	abstract_method({clause,?line('$1'),element(3, '$1'),'$2','$3','$4'}).
+    abstract_method({clause,?line('$1'),element(3, '$1'),'$2','$3','$4'}).
 
 
 clause_args -> argument_list : element(1, '$1').
@@ -265,23 +265,23 @@ expr_160 -> expr_200 'andalso' expr_160 : ?mkop2('$1', '$2', '$3').
 expr_160 -> expr_200 : '$1'.
 
 expr_200 -> expr_300 comp_op expr_300 :
-	?mkop2('$1', '$2', '$3').
+    ?mkop2('$1', '$2', '$3').
 expr_200 -> expr_300 : '$1'.
 
 expr_300 -> expr_400 list_op expr_300 :
-	?mkop2('$1', '$2', '$3').
+    ?mkop2('$1', '$2', '$3').
 expr_300 -> expr_400 : '$1'.
 
 expr_400 -> expr_400 add_op expr_500 :
-	?mkop2('$1', '$2', '$3').
+    ?mkop2('$1', '$2', '$3').
 expr_400 -> expr_500 : '$1'.
 
 expr_500 -> expr_500 mult_op expr_600 :
-	?mkop2('$1', '$2', '$3').
+    ?mkop2('$1', '$2', '$3').
 expr_500 -> expr_600 : '$1'.
 
 expr_600 -> prefix_op expr_700 :
-	?mkop1('$1', '$2').
+    ?mkop1('$1', '$2').
 expr_600 -> expr_700 : '$1'.
 
 expr_700 -> function_call : '$1'.
@@ -289,15 +289,15 @@ expr_700 -> record_expr : '$1'.
 expr_700 -> expr_800 : '$1'.
 
 expr_800 -> expr_900 '::' expr_max :
-	{oo_remote,?line('$2'),'$1','$3'}.
+    {oo_remote,?line('$2'),'$1','$3'}.
 expr_800 -> expr_900 ':' expr_max :
-	{remote,?line('$2'),'$1','$3'}.
+    {remote,?line('$2'),'$1','$3'}.
 expr_800 -> expr_900 : '$1'.
 
 expr_900 -> '.' atom :
-	{record_field,?line('$1'),{atom,?line('$1'),''},'$2'}.
+    {record_field,?line('$1'),{atom,?line('$1'),''},'$2'}.
 expr_900 -> expr_900 '.' atom :
-	{record_field,?line('$2'),'$1','$3'}.
+    {record_field,?line('$2'),'$1','$3'}.
 expr_900 -> expr_max : '$1'.
 
 expr_max -> var : '$1'.
@@ -333,7 +333,7 @@ bin_elements -> bin_element : ['$1'].
 bin_elements -> bin_element ',' bin_elements : ['$1'|'$3'].
 
 bin_element -> bit_expr opt_bit_size_expr opt_bit_type_list :
-	{bin_element,?line('$1'),'$1','$2','$3'}.
+    {bin_element,?line('$1'),'$1','$2','$3'}.
 
 bit_expr -> prefix_op expr_max : ?mkop1('$1', '$2').
 bit_expr -> expr_max : '$1'.
@@ -354,9 +354,9 @@ bit_size_expr -> expr_max : '$1'.
 
 
 list_comprehension -> '[' expr '||' lc_exprs ']' :
-	{lc,?line('$1'),'$2','$4'}.
+    {lc,?line('$1'),'$2','$4'}.
 binary_comprehension -> '<<' binary '||' lc_exprs '>>' :
-	{bc,?line('$1'),'$2','$4'}.
+    {bc,?line('$1'),'$2','$4'}.
 lc_exprs -> lc_expr : ['$1'].
 lc_exprs -> lc_expr ',' lc_exprs : ['$1'|'$3'].
 
@@ -369,7 +369,7 @@ tuple -> '{' exprs '}' : {tuple,?line('$1'),'$2'}.
 
 
 %%struct -> atom tuple :
-%%	{struct,?line('$1'),element(3, '$1'),element(3, '$2')}.
+%%    {struct,?line('$1'),element(3, '$1'),element(3, '$2')}.
 
 
 %% N.B. This is called from expr_700.
@@ -377,17 +377,17 @@ tuple -> '{' exprs '}' : {tuple,?line('$1'),'$2'}.
 %% always atoms for the moment, this might change in the future.
 
 record_expr -> '#' atom '.' atom :
-	{record_index,?line('$1'),element(3, '$2'),'$4'}.
+    {record_index,?line('$1'),element(3, '$2'),'$4'}.
 record_expr -> '#' atom record_tuple :
-	{record,?line('$1'),element(3, '$2'),'$3'}.
+    {record,?line('$1'),element(3, '$2'),'$3'}.
 record_expr -> expr_max '#' atom '.' atom :
-	{record_field,?line('$2'),'$1',element(3, '$3'),'$5'}.
+    {record_field,?line('$2'),'$1',element(3, '$3'),'$5'}.
 record_expr -> expr_max '#' atom record_tuple :
-	{record,?line('$2'),'$1',element(3, '$3'),'$4'}.
+    {record,?line('$2'),'$1',element(3, '$3'),'$4'}.
 record_expr -> record_expr '#' atom '.' atom :
-	{record_field,?line('$2'),'$1',element(3, '$3'),'$5'}.
+    {record_field,?line('$2'),'$1',element(3, '$3'),'$5'}.
 record_expr -> record_expr '#' atom record_tuple :
-	{record,?line('$2'),'$1',element(3, '$3'),'$4'}.
+    {record,?line('$2'),'$1',element(3, '$3'),'$4'}.
 
 record_tuple -> '{' '}' : [].
 record_tuple -> '{' record_fields '}' : '$2'.
@@ -401,7 +401,7 @@ record_field -> atom '=' expr : {record_field,?line('$1'),'$1','$3'}.
 %% N.B. This is called from expr_700.
 
 function_call -> expr_800 argument_list :
-	{call,?line('$1'),'$1',element(1, '$2')}.
+    {call,?line('$1'),'$1',element(1, '$2')}.
 
 
 if_expr -> 'if' if_clauses 'end' : {'if',?line('$1'),'$2'}.
@@ -410,32 +410,32 @@ if_clauses -> if_clause : ['$1'].
 if_clauses -> if_clause ';' if_clauses : ['$1' | '$3'].
 
 if_clause -> guard clause_body :
-	{clause,?line(hd(hd('$1'))),[],'$1','$2'}.
+    {clause,?line(hd(hd('$1'))),[],'$1','$2'}.
 
 
 case_expr -> 'case' expr 'of' cr_clauses 'end' :
-	{'case',?line('$1'),'$2','$4'}.
+    {'case',?line('$1'),'$2','$4'}.
 
 cr_clauses -> cr_clause : ['$1'].
 cr_clauses -> cr_clause ';' cr_clauses : ['$1' | '$3'].
 
 cr_clause -> expr clause_guard clause_body :
-	{clause,?line('$1'),['$1'],'$2','$3'}.
+    {clause,?line('$1'),['$1'],'$2','$3'}.
 
 receive_expr -> 'receive' cr_clauses 'end' :
-	{'receive',?line('$1'),'$2'}.
+    {'receive',?line('$1'),'$2'}.
 receive_expr -> 'receive' 'after' expr clause_body 'end' :
-	{'receive',?line('$1'),[],'$3','$4'}.
+    {'receive',?line('$1'),[],'$3','$4'}.
 receive_expr -> 'receive' cr_clauses 'after' expr clause_body 'end' :
-	{'receive',?line('$1'),'$2','$4','$5'}.
+    {'receive',?line('$1'),'$2','$4','$5'}.
 
 
 fun_expr -> 'fun' atom '/' integer :
-	{'fun',?line('$1'),{function,element(3, '$2'),element(3, '$4')}}.
+    {'fun',?line('$1'),{function,element(3, '$2'),element(3, '$4')}}.
 fun_expr -> 'fun' atom_or_var ':' atom_or_var '/' integer_or_var :
-	{'fun',?line('$1'),{function,'$2','$4','$6'}}.
+    {'fun',?line('$1'),{function,'$2','$4','$6'}}.
 fun_expr -> 'fun' fun_clauses 'end' :
-	build_fun(?line('$1'), '$2').
+    build_fun(?line('$1'), '$2').
 
 atom_or_var -> atom : '$1'.
 atom_or_var -> var : '$1'.
@@ -447,36 +447,36 @@ fun_clauses -> fun_clause : ['$1'].
 fun_clauses -> fun_clause ';' fun_clauses : ['$1' | '$3'].
 
 fun_clause -> argument_list clause_guard clause_body :
-	{Args,Pos} = '$1',
-	{clause,Pos,'fun',Args,'$2','$3'}.
+    {Args,Pos} = '$1',
+    {clause,Pos,'fun',Args,'$2','$3'}.
 
 try_expr -> 'try' exprs 'of' cr_clauses try_catch :
-	build_try(?line('$1'),'$2','$4','$5').
+    build_try(?line('$1'),'$2','$4','$5').
 try_expr -> 'try' exprs try_catch :
-	build_try(?line('$1'),'$2',[],'$3').
+    build_try(?line('$1'),'$2',[],'$3').
 
 try_catch -> 'catch' try_clauses 'end' :
-	{'$2',[]}.
+    {'$2',[]}.
 try_catch -> 'catch' try_clauses 'after' exprs 'end' :
-	{'$2','$4'}.
+    {'$2','$4'}.
 try_catch -> 'after' exprs 'end' :
-	{[],'$2'}.
+    {[],'$2'}.
 
 try_clauses -> try_clause : ['$1'].
 try_clauses -> try_clause ';' try_clauses : ['$1' | '$3'].
 
 try_clause -> expr clause_guard clause_body :
-	L = ?line('$1'),
-	{clause,L,[{tuple,L,[{atom,L,throw},'$1',{var,L,'_'}]}],'$2','$3'}.
+    L = ?line('$1'),
+    {clause,L,[{tuple,L,[{atom,L,throw},'$1',{var,L,'_'}]}],'$2','$3'}.
 try_clause -> atom ':' expr clause_guard clause_body :
-	L = ?line('$1'),
-	{clause,L,[{tuple,L,['$1','$3',{var,L,'_'}]}],'$4','$5'}.
+    L = ?line('$1'),
+    {clause,L,[{tuple,L,['$1','$3',{var,L,'_'}]}],'$4','$5'}.
 try_clause -> var ':' expr clause_guard clause_body :
-	L = ?line('$1'),
-	{clause,L,[{tuple,L,['$1','$3',{var,L,'_'}]}],'$4','$5'}.
+    L = ?line('$1'),
+    {clause,L,[{tuple,L,['$1','$3',{var,L,'_'}]}],'$4','$5'}.
 
 query_expr -> 'query' list_comprehension 'end' :
-	{'query',?line('$1'),'$2'}.
+    {'query',?line('$1'),'$2'}.
 
 
 argument_list -> '(' ')' : {[],?line('$1')}.
@@ -497,7 +497,7 @@ atomic -> strings : '$1'.
 
 strings -> string : '$1'.
 strings -> string strings :
-	{string,?line('$1'),element(3, '$1') ++ element(3, '$2')}.
+    {string,?line('$1'),element(3, '$1') ++ element(3, '$2')}.
 
 prefix_op -> '+' : '$1'.
 prefix_op -> '-' : '$1'.
@@ -538,7 +538,7 @@ rule_clauses -> rule_clause : ['$1'].
 rule_clauses -> rule_clause ';' rule_clauses : ['$1'|'$3'].
 
 rule_clause -> atom clause_args clause_guard rule_body :
-	{clause,?line('$1'),element(3, '$1'),'$2','$3','$4'}.
+    {clause,?line('$1'),element(3, '$1'),'$2','$3','$4'}.
 
 rule_body -> ':-' lc_exprs: '$2'.
 
@@ -604,9 +604,9 @@ parse_form(Tokens) ->
       ErrorInfo :: error_info().
 parse_exprs(Tokens) ->
     case parse([{atom,0,f},{'(',0},{')',0},{'->',0}|Tokens]) of
-	{ok,{function,_Lf,f,0,[{clause,_Lc,[],[],Exprs}]}} ->
-	    {ok,Exprs};
-	{error,_} = Err -> Err
+    {ok,{function,_Lf,f,0,[{clause,_Lc,[],[],Exprs}]}} ->
+        {ok,Exprs};
+    {error,_} = Err -> Err
     end.
 
 -spec parse_term(Tokens) -> {ok, Term} | {error, ErrorInfo} when
@@ -615,22 +615,22 @@ parse_exprs(Tokens) ->
       ErrorInfo :: error_info().
 parse_term(Tokens) ->
     case parse([{atom,0,f},{'(',0},{')',0},{'->',0}|Tokens]) of
-	{ok,{function,_Lf,f,0,[{clause,_Lc,[],[],[Expr]}]}} ->
-	    try normalise(Expr) of
-		Term -> {ok,Term}
-	    catch
-		_:_R -> {error,{?line(Expr),?MODULE,"bad term"}}
-	    end;
-	{ok,{function,_Lf,f,0,[{clause,_Lc,[],[],[_E1,E2|_Es]}]}} ->
-	    {error,{?line(E2),?MODULE,"bad term"}};
-	{error,_} = Err -> Err
+    {ok,{function,_Lf,f,0,[{clause,_Lc,[],[],[Expr]}]}} ->
+        try normalise(Expr) of
+        Term -> {ok,Term}
+        catch
+        _:_R -> {error,{?line(Expr),?MODULE,"bad term"}}
+        end;
+    {ok,{function,_Lf,f,0,[{clause,_Lc,[],[],[_E1,E2|_Es]}]}} ->
+        {error,{?line(E2),?MODULE,"bad term"}};
+    {error,_} = Err -> Err
     end.
 
 -type attributes() :: 'export' | 'file' | 'import' | 'module'
-		    | 'opaque' | 'record' | 'type'.
+            | 'opaque' | 'record' | 'type'.
 
 build_typed_attribute({atom,La,record},
-		      {typed_record, {atom,_Ln,RecordName}, RecTuple}) ->
+              {typed_record, {atom,_Ln,RecordName}, RecTuple}) ->
     {attribute,La,record,{RecordName,record_tuple(RecTuple)}};
 build_typed_attribute({atom,La,Attr},
                       {type_def, {call,_,{atom,_,TypeName},Args}, Type})
@@ -645,34 +645,34 @@ build_typed_attribute({atom,La,Attr},_) ->
     case Attr of
         record -> error_bad_decl(La, record);
         type   -> error_bad_decl(La, type);
-	opaque -> error_bad_decl(La, opaque);
+    opaque -> error_bad_decl(La, opaque);
         _      -> ret_err(La, "bad attribute")
     end.
 
 build_type_spec({Kind,La}, {SpecFun, TypeSpecs})
   when (Kind =:= spec) or (Kind =:= callback) ->
     NewSpecFun =
-	case SpecFun of
-	    {atom, _, Fun} ->
-		{Fun, find_arity_from_specs(TypeSpecs)};
-	    {{atom,_, Mod}, {atom,_, Fun}} ->
-		{Mod,Fun,find_arity_from_specs(TypeSpecs)};
-	    {{atom, _, Fun}, {integer, _, Arity}} ->
-		%% Old style spec. Allow this for now.
-		{Fun,Arity};
-	    {{atom,_, Mod}, {atom, _, Fun}, {integer, _, Arity}} ->
-		%% Old style spec. Allow this for now.
-		{Mod,Fun,Arity}
-	    end,
+    case SpecFun of
+        {atom, _, Fun} ->
+        {Fun, find_arity_from_specs(TypeSpecs)};
+        {{atom,_, Mod}, {atom,_, Fun}} ->
+        {Mod,Fun,find_arity_from_specs(TypeSpecs)};
+        {{atom, _, Fun}, {integer, _, Arity}} ->
+        %% Old style spec. Allow this for now.
+        {Fun,Arity};
+        {{atom,_, Mod}, {atom, _, Fun}, {integer, _, Arity}} ->
+        %% Old style spec. Allow this for now.
+        {Mod,Fun,Arity}
+        end,
     {attribute,La,Kind,{NewSpecFun, TypeSpecs}}.
 
 find_arity_from_specs([Spec|_]) ->
     %% Use the first spec to find the arity. If all are not the same,
     %% erl_lint will find this.
     Fun = case Spec of
-	      {type, _, bounded_fun, [F, _]} -> F;
-	      {type, _, 'fun', _} = F -> F
-	  end,
+          {type, _, bounded_fun, [F, _]} -> F;
+          {type, _, 'fun', _} = F -> F
+      end,
     {type, _, 'fun', [{type, _, product, Args},_]} = Fun,
     length(Args).
 
@@ -703,80 +703,80 @@ build_bin_type([{var, La, _}|_], _) ->
     ret_err(La, "Bad binary type").
 
 %% build_attribute(AttrName, AttrValue) ->
-%%	{attribute,Line,module,Module}
-%%	{attribute,Line,export,Exports}
-%%	{attribute,Line,import,Imports}
-%%	{attribute,Line,record,{Name,Inits}}
-%%	{attribute,Line,file,{Name,Line}}
-%%	{attribute,Line,Name,Val}
+%%    {attribute,Line,module,Module}
+%%    {attribute,Line,export,Exports}
+%%    {attribute,Line,import,Imports}
+%%    {attribute,Line,record,{Name,Inits}}
+%%    {attribute,Line,file,{Name,Line}}
+%%    {attribute,Line,Name,Val}
 
 build_attribute({atom,La,module}, Val) ->
     case Val of
-	[{atom,_Lm,Module}] ->
-	    {attribute,La,module,Module};
-	[{atom,_Lm,Module},ExpList] ->
-	    {attribute,La,module,{Module,var_list(ExpList)}};
-	[Name] ->
-	    case package_segments(Name) of
-		error ->
-		    error_bad_decl(La, module);
-		Module ->
-		    {attribute,La,module,Module}
-	    end;
-	[Name,ExpList] ->
-	    case package_segments(Name) of
-		error ->
-		    error_bad_decl(La, module);
-		Module ->
-		    {attribute,La,module,{Module,var_list(ExpList)}}
-	    end;
-	_Other ->
-	    error_bad_decl(La, module)
+    [{atom,_Lm,Module}] ->
+        {attribute,La,module,Module};
+    [{atom,_Lm,Module},ExpList] ->
+        {attribute,La,module,{Module,var_list(ExpList)}};
+    [Name] ->
+        case package_segments(Name) of
+        error ->
+            error_bad_decl(La, module);
+        Module ->
+            {attribute,La,module,Module}
+        end;
+    [Name,ExpList] ->
+        case package_segments(Name) of
+        error ->
+            error_bad_decl(La, module);
+        Module ->
+            {attribute,La,module,{Module,var_list(ExpList)}}
+        end;
+    _Other ->
+        error_bad_decl(La, module)
     end;
 build_attribute({atom,La,export}, Val) ->
     case Val of
-	[ExpList] ->
-	    {attribute,La,export,farity_list(ExpList)};
-	_Other -> error_bad_decl(La, export)
+    [ExpList] ->
+        {attribute,La,export,farity_list(ExpList)};
+    _Other -> error_bad_decl(La, export)
     end;
 build_attribute({atom,La,import}, Val) ->
     case Val of
-	[Name] ->
-	    case package_segments(Name) of
-		error ->
-		    error_bad_decl(La, import);
-		Module ->
-		    {attribute,La,import,Module}
-	    end;
-	[{atom,_Lm,Mod},ImpList] ->
-	    {attribute,La,import,{Mod,farity_list(ImpList)}};
-	[Name, ImpList] ->
-	    case package_segments(Name) of
-		error ->
-		    error_bad_decl(La, import);
-		Module ->
-		    {attribute,La,import,{Module,farity_list(ImpList)}}
-	    end;
-	_Other -> error_bad_decl(La, import)
+    [Name] ->
+        case package_segments(Name) of
+        error ->
+            error_bad_decl(La, import);
+        Module ->
+            {attribute,La,import,Module}
+        end;
+    [{atom,_Lm,Mod},ImpList] ->
+        {attribute,La,import,{Mod,farity_list(ImpList)}};
+    [Name, ImpList] ->
+        case package_segments(Name) of
+        error ->
+            error_bad_decl(La, import);
+        Module ->
+            {attribute,La,import,{Module,farity_list(ImpList)}}
+        end;
+    _Other -> error_bad_decl(La, import)
     end;
 build_attribute({atom,La,record}, Val) ->
     case Val of
-	[{atom,_Ln,Record},RecTuple] ->
-	    {attribute,La,record,{Record,record_tuple(RecTuple)}};
-	_Other -> error_bad_decl(La, record)
+    [{atom,_Ln,Record},RecTuple] ->
+        {attribute,La,record,{Record,record_tuple(RecTuple)}};
+    _Other -> error_bad_decl(La, record)
     end;
 build_attribute({atom,La,file}, Val) ->
     case Val of
-	[{string,_Ln,Name},{integer,_Ll,Line}] ->
-	    {attribute,La,file,{Name,Line}};
-	_Other -> error_bad_decl(La, file)
+    [{string,_Ln,Name},{integer,_Ll,Line}] ->
+        {attribute,La,file,{Name,Line}};
+    _Other -> error_bad_decl(La, file)
     end;
 build_attribute({atom,La,Attr}, Val) ->
     case Val of
-	[Expr0] ->
-	    Expr = attribute_farity(Expr0),
-	    {attribute,La,Attr,term(Expr)};
-	_Other -> ret_err(La, "bad attribute")
+    [Expr0] ->
+        Expr = attribute_farity(Expr0),
+        {attribute,La,Attr,term(Expr)};
+    _Other -> ret_err(La, "bad attribute")
     end.
 
 var_list({cons,_Lc,{var,_,V},Tail}) ->
@@ -820,9 +820,9 @@ record_fields([{match,_Lm,{atom,La,A},Expr}|Fields]) ->
 record_fields([{typed,Expr,TypeInfo}|Fields]) ->
     [Field] = record_fields([Expr]),
     TypeInfo1 =
-	case Expr of
-	    {match, _, _, _} -> TypeInfo; %% If we have an initializer.
-	    {atom, La, _} ->
+    case Expr of
+        {match, _, _, _} -> TypeInfo; %% If we have an initializer.
+        {atom, La, _} ->
                 case has_undefined(TypeInfo) of
                     false ->
                         TypeInfo2 = maybe_add_paren(TypeInfo),
@@ -830,7 +830,7 @@ record_fields([{typed,Expr,TypeInfo}|Fields]) ->
                     true ->
                         TypeInfo
                 end
-	end,
+    end,
     [{typed_record_field,Field,TypeInfo1}|record_fields(Fields)];
 record_fields([Other|_Fields]) ->
     ret_err(?line(Other), "bad record field");
@@ -893,13 +893,13 @@ check_clauses(Cs, Name, Arity) ->
      mapl(
          fun (
          {clause,L,N,As,G,B}) when N =:= Name, length(As) =:= Arity ->
-		 {clause,L,As,G,B};
+         {clause,L,As,G,B};
          ({abst_clause,L,N,As,[]}) when N =:= Name ->
          {abst_clause,L,As};
          ({abst_clause,L,_N,_As,_G}) ->
          ret_err(L, "invalid abstract method");
-	     ({clause,L,_N,_As,_G,_B}) ->
-		 ret_err(L, "head mismatch") end, Cs).
+         ({clause,L,_N,_As,_G,_B}) ->
+         ret_err(L, "head mismatch") end, Cs).
 
 build_try(L,Es,Scs,{Ccs,As}) ->
     {'try',L,Es,Scs,Ccs,As}.
@@ -916,10 +916,10 @@ ret_err(L, S) ->
 %% can be removed when the jam machine (and all other machines)
 %% uses the standardized (Erlang 5.0) evaluation order (from left to right)
 mapl(F, [H|T]) ->
-	V = F(H),
-	[V | mapl(F,T)];
+    V = F(H),
+    [V | mapl(F,T)];
 mapl(_, []) ->
-	[].
+    [].
 
 %%  Convert between the abstract form of a term and a term.
 
@@ -934,10 +934,10 @@ normalise({string,_,S}) -> S;
 normalise({nil,_}) -> [];
 normalise({bin,_,Fs}) ->
     {value, B, _} =
-	eval_bits:expr_grp(Fs, [],
-			   fun(E, _) ->
-				   {value, normalise(E), []}
-			   end, [], true),
+    eval_bits:expr_grp(Fs, [],
+               fun(E, _) ->
+                   {value, normalise(E), []}
+               end, [], true),
     B;
 normalise({cons,_,Head,Tail}) ->
     [normalise(Head)|normalise(Tail)];
@@ -946,14 +946,14 @@ normalise({tuple,_,Args}) ->
 %% Atom dot-notation, as in 'foo.bar.baz'
 normalise({record_field,_,_,_}=A) ->
     case package_segments(A) of
-	error -> erlang:error({badarg, A});
-	As -> list_to_atom(packages:concat(As))
+    error -> erlang:error({badarg, A});
+    As -> list_to_atom(packages:concat(As))
     end;
 %% Special case for unary +/-.
 normalise({op,_,'+',{char,_,I}}) -> I;
 normalise({op,_,'+',{integer,_,I}}) -> I;
 normalise({op,_,'+',{float,_,F}}) -> F;
-normalise({op,_,'-',{char,_,I}}) -> -I;		%Weird, but compatible!
+normalise({op,_,'-',{char,_,I}}) -> -I;        %Weird, but compatible!
 normalise({op,_,'-',{integer,_,I}}) -> -I;
 normalise({op,_,'-',{float,_,F}}) -> -F;
 normalise(X) -> erlang:error({badarg, X}).
@@ -1145,7 +1145,7 @@ get_attribute(L, Name) ->
 get_attributes(L) ->
     erl_scan:attributes_info(L).
 
-%%% Uarini Specific Code
+%%% OOErlang Specific Code
 abstract_method({clause,Line,Name,Args,Guards,[]}) ->
     {abst_clause, Line,Name,Args,Guards};
 abstract_method(FunNode) ->

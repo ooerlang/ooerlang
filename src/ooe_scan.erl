@@ -385,7 +385,7 @@ attr_info(Attrs, Item) ->
         false ->
             undefined
     catch
-	_:_ ->
+    _:_ ->
             erlang:error(badarg, [Attrs, Item])
     end.
 
