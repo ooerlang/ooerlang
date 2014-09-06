@@ -13,7 +13,7 @@
 %%-----------------------------------------------------------------------------
 %% Compila vários códigos em OOE dependentes e gera .beam's correspondentes
 compile(FileNameList) ->
-    case catch(ooe:compile(FileNameList)) of
+    case catch(ooec:compile(FileNameList)) of
         {'EXIT', Reason} ->
             io:format("*******ERROR!~n"),
             io:format("***Reason:~n~p", [Reason]);
@@ -22,8 +22,7 @@ compile(FileNameList) ->
             error;
 
         Result ->
-            io:format("~nCompilation Result:~n"
-                        "~p", [Result])
+            io:format("Compilation Result:~n~p", [Result])
 
         %% X ->
         %%     io:format("*******UNEXPECTED ERROR!~n"),

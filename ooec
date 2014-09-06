@@ -30,7 +30,7 @@ function generate_erl
     for (( i = 0; i < fileIndex; i++ ))
     do
         #echo "filename $i:"${filename[$i]}
-        compileParams=$compileParams"\""$OOE_PATH"/"${filename[$i]}"\""
+        compileParams=$compileParams\"${filename[$i]}"\""
         if [ `expr $i + 1` != $fileIndex ]; then
             compileParams=$compileParams","
         fi
@@ -47,7 +47,7 @@ function print_tokens
         echo "More then one .cerl received, printing tokens only for "$filename[0]"!"
         echo ""
     fi
-    compileParams=$compileParams"\""$OOE_PATH"/"${filename[0]}"\""
+    compileParams=$compileParams"\"${filename[0]}\""
     erl -pa $OOE_PATH/ebin -noshell -eval "ooe_utils:print_tokens("$compileParams")." -s erlang halt
     echo ""
 }
@@ -65,7 +65,7 @@ function print_etree
         echo "More then one .cerl received, printing tokens only for "$filename[0]"!"
         echo ""
     fi
-    compileParams=$compileParams"\""$OOE_PATH"/"${filename[0]}"\""
+    compileParams=$compileParams"\"${filename[0]}\""
     erl -pa $OOE_PATH/ebin -noshell -eval "ooe_utils:print_erl_ast("$compileParams")." -s erlang halt
     echo ""
 }
