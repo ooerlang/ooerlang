@@ -6,6 +6,7 @@ UARINI_SRC_DIR = src_cerl
 ERLC=erlc -I $(INCLUDE_DIR) -pa $(EBIN_DIR)
 ERL=erl -noshell -pa $(EBIN_DIR) -I $(INCLUDE_DIR) -pa $(TEST_EBIN_DIR)
 
+
 .PHONY: clean debug
 
 # This is the default task
@@ -28,38 +29,30 @@ debug: compile
 
 ebin/ooec.beam: $(INCLUDE_DIR)/*.hrl src/*.erl src/ooe_parse.erl src/aleppo_parser.erl
 	@ mkdir -p $(EBIN_DIR)
-	@ echo Compiling Erlang source...
 	@ $(ERLC) -o $(EBIN_DIR) src/*.erl
-	@ echo
 
 $(TEST_EBIN_DIR)/test.beam : test/*.erl
-	@ echo Compiling Eunits tests...
 	@ rm -rf $(TEST_EBIN_DIR)/
 	@ mkdir -p $(TEST_EBIN_DIR)
 	@ $(ERLC) -o $(TEST_EBIN_DIR) test/test.erl
-	@ echo  
 
 src/ooe_parse.erl: src/ooe_parse.yrl
-	@ echo Compiling Parser ...
-	@ $(ERL) -eval 'yecc:file("src/ooe_parse.yrl", [{verbose, true}]), halt().'
+	@ $(ERL) -eval 'yecc:file("src/ooe_parse.yrl", \
+		[{verbose, false}, {report_warnings, false}]), halt().'
 	@ mkdir -p $(EBIN_DIR)
 	@ $(ERLC) -o $(EBIN_DIR) $@
-	@ echo
 
 src/aleppo_parser.erl: src/aleppo_parser.yrl
-	@ echo Compiling Aleppo Parser ...
-	@ $(ERL) -eval 'yecc:file("src/aleppo_parser.yrl", [{verbose, true}]), halt().'
+	@ $(ERL) -eval 'yecc:file("src/aleppo_parser.yrl", \
+		[{verbose, false}, {report_warnings, false}]), halt().'
 	@ mkdir -p $(EBIN_DIR)
 	@ $(ERLC) -o $(EBIN_DIR) $@
-	@ echo
 
 clean:
-	@ echo Cleaning...
-	rm -f erl_crash.dump
-	rm -f *.erl
-	rm -f *.beam
-	rm -f $(SRC_DIR)/ooe_parse.erl
-	rm -f $(SRC_DIR)/aleppo_parser.erl
-	rm -rf $(EBIN_DIR)/
-	rm -rf $(TEST_EBIN_DIR)/
-	@ echo
+	@ rm -f erl_crash.dump
+	@ rm -f *.erl
+	@ rm -f *.beam
+	@ rm -f $(SRC_DIR)/ooe_parse.erl
+	@ rm -f $(SRC_DIR)/aleppo_parser.erl
+	@ rm -rf $(EBIN_DIR)/
+	@ rm -rf $(TEST_EBIN_DIR)/

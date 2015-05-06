@@ -151,7 +151,7 @@ string(String, {Line,Column}, Options) when ?STRING(String),
 -type char_spec() :: string() | 'eof'.
 -type cont_fun() :: fun((char_spec(), #ooe_scan{}, line(), column(),
                          tokens(), any()) -> any()).
--opaque return_cont() :: {ooe_scan_continuation,
+-type return_cont() :: {ooe_scan_continuation,
                           string(), column(), tokens(), line(),
                           #ooe_scan{}, any(), cont_fun()}.
 -type tokens_result() :: {'ok', Tokens :: tokens(), EndLocation :: location()}
