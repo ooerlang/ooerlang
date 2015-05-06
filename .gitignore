@@ -14,3 +14,4 @@ test/ebin/
 *.dump
 *~
 *.bak
+examples/**/*.erl
