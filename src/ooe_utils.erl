@@ -22,7 +22,7 @@ compile(FileNameList) ->
             error;
 
         Result ->
-            io:format("Compilation Result:~n~p", [Result])
+            io:format("~w~n", [Result])
 
         %% X ->
         %%     io:format("*******UNEXPECTED ERROR!~n"),

@@ -23,7 +23,6 @@ compile({beam, OOErlangFileName}) ->
 compile(FileNameList) ->
     ErlangFileList = get_erl_file_list(FileNameList),
 
-    io:format("\n"),
     Result =
     [ begin
         %% io:format("~ncompiling ~p~n", [ErlangFile]),
