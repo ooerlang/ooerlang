@@ -156,7 +156,7 @@ get_erl_function({function, Line, Name, Arity, Clauses}) ->
 %%-----------------------------------------------------------------------------
 %% Transforma uma clausula de uma funcao, convertendo as expressoes de OOErlang
 %% para Erlang
-get_erl_clause({clause, Line, ParamList, [], ExprList}) ->
+get_erl_clause({clause, Line, ParamList, GuardList, ExprList}) ->
     TransfParamListTemp = lists:map(fun get_erl_param/1, ParamList),
 
     Scope = st:get_scope(),
@@ -175,11 +175,11 @@ get_erl_clause({clause, Line, ParamList, [], ExprList}) ->
 
     case st:is_constructor(Scope) of
         false ->
-            {clause, Line, TransfParamList, [], TransfExprList};
+            {clause, Line, TransfParamList, GuardList, TransfExprList};
 
         true ->
             TransfExprList2=create_user_constr_body(Line, Scope, TransfExprList),
-            {clause, Line, TransfParamList, [], TransfExprList2}
+            {clause, Line, TransfParamList, GuardList, TransfExprList2}
     end.
 
 get_erl_param(Parameter) -> gen_erl_code:match_pattern(Parameter).
